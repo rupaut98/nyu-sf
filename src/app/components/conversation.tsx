@@ -1,5 +1,6 @@
+// src/app/components/conversation.tsx
 'use client';
-
+    
 import { useConversation } from '@11labs/react';
 import { useCallback, useEffect, useRef } from 'react';
 
@@ -18,15 +19,22 @@ export function Conversation({ onSpeakingStateChange, isActive }: ConversationPr
     onDisconnect: () => {
       console.log('Disconnected from conversation service');
       conversationStarted.current = false;
+      onSpeakingStateChange(false);
     },
     onMessage: (message) => {
       console.log('Received message:', message);
-      const isSpeaking = message.type === 'start-speaking';
-      onSpeakingStateChange?.(isSpeaking);
+      if (message.type === 'start-speaking') {
+        console.log('AI started speaking');
+        onSpeakingStateChange(true);
+      } else if (message.type === 'end-speaking') {
+        console.log('AI stopped speaking');
+        onSpeakingStateChange(false);
+      }
     },
     onError: (error) => {
       console.error('Conversation error:', error);
       conversationStarted.current = false;
+      onSpeakingStateChange(false);
     },
   });
 
