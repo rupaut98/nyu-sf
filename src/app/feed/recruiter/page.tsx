@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import SwipeCard from '@/component/SwipeCard';
-import FeedNavbar from '../../../component/FeedNavbar';
+import SwipeCard from '@/app/components/SwipeCard';
+import FeedNavbar from '../../components/FeedNavbar';
 import { userProfiles } from '@/data/mockData';
 
 export default function RecruiterFeed() {

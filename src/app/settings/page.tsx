@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import FeedNavbar from '@/component/FeedNavbar';
+import FeedNavbar from '@/app/components/FeedNavbar';
 import JobSeekerSettings from './JobSeekerSettings';
 import RecruiterSettings from './RecruiterSettings';
 
