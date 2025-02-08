@@ -1,59 +1,61 @@
 'use client';
 
 import { useConversation } from '@11labs/react';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
-export function Conversation() {
+interface ConversationProps {
+  onSpeakingStateChange: (isSpeaking: boolean) => void;
+  isActive: boolean;
+}
+
+export function Conversation({ onSpeakingStateChange, isActive }: ConversationProps) {
+  const conversationStarted = useRef(false);
+
   const conversation = useConversation({
-    onConnect: () => console.log('Connected'),
-    onDisconnect: () => console.log('Disconnected'),
-    onMessage: (message) => console.log('Message:', message),
-    onError: (error) => console.error('Error:', error),
+    onConnect: () => {
+      console.log('Connected to conversation service');
+    },
+    onDisconnect: () => {
+      console.log('Disconnected from conversation service');
+      conversationStarted.current = false;
+    },
+    onMessage: (message) => {
+      console.log('Received message:', message);
+      const isSpeaking = message.type === 'start-speaking';
+      onSpeakingStateChange?.(isSpeaking);
+    },
+    onError: (error) => {
+      console.error('Conversation error:', error);
+      conversationStarted.current = false;
+    },
   });
 
-
   const startConversation = useCallback(async () => {
+    if (conversationStarted.current) {
+      console.log('Conversation already started');
+      return;
+    }
+    
     try {
-      // Request microphone permission
+      console.log('Starting conversation session...');
       await navigator.mediaDevices.getUserMedia({ audio: true });
-
-      // Start the conversation with your agent
       await conversation.startSession({
-        agentId: process.env.NEXT_PUBLIC_AGENT_ID!, // Replace with your agent ID
+        agentId: process.env.NEXT_PUBLIC_AGENT_ID!,
       });
-
+      console.log('Conversation session started successfully');
+      conversationStarted.current = true;
     } catch (error) {
       console.error('Failed to start conversation:', error);
+      conversationStarted.current = false;
     }
   }, [conversation]);
 
-  const stopConversation = useCallback(async () => {
-    await conversation.endSession();
-  }, [conversation]);
+  useEffect(() => {
+    console.log('Conversation component mounted, isActive:', isActive);
+    if (isActive && !conversationStarted.current) {
+      startConversation();
+    }
+  }, [isActive, startConversation]);
 
-  return (
-    <div className="flex flex-col items-center gap-4">
-      <div className="flex gap-2">
-        <button
-          onClick={startConversation}
-          disabled={conversation.status === 'connected'}
-          className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
-        >
-          Start Conversation
-        </button>
-        <button
-          onClick={stopConversation}
-          disabled={conversation.status !== 'connected'}
-          className="px-4 py-2 bg-red-500 text-white rounded disabled:bg-gray-300"
-        >
-          Stop Conversation
-        </button>
-      </div>
-
-      <div className="flex flex-col items-center">
-        <p>Status: {conversation.status}</p>
-        <p>Agent is {conversation.isSpeaking ? 'speaking' : 'listening'}</p>
-      </div>
-    </div>
-  );
+  return null;
 }
