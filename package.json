@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@11labs/react": "^0.0.6",
+    "elevenlabs": "^1.50.5",
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/supabase-js": "^2.48.1",
     "formidable": "^3.5.2",
