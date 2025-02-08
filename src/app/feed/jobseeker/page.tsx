@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import SwipeCard from '@/app/components/SwipeCard';
 import FeedNavbar from '../../components/FeedNavbar';
-import { jobPosts } from '@/data/mockData';
+import { jobPosts } from '@/app/data/mockData';
 
 export default function JobSeekerFeed() {
   const [currentIndex, setCurrentIndex] = useState(0);

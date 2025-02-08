@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { JobPost, UserProfile } from '@/types';
+import { JobPost, UserProfile } from '@/app/types';
 
 interface SwipeCardProps {
   data: JobPost | UserProfile;

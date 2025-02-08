@@ -1,4 +1,4 @@
-import { JobPost, UserProfile } from '@/types';
+import { JobPost, UserProfile } from '@/app/types';
 
 export const jobPosts: JobPost[] = [
   {
