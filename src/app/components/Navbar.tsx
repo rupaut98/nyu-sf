@@ -12,7 +12,7 @@ export default function Navbar() {
           </div>
           <div>
             <Link
-              href="/selection"
+              href="/auth/login"
               className="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition-colors"
             >
               Get Started
@@ -22,4 +22,4 @@ export default function Navbar() {
       </div>
     </nav>
   );
-} 
+}
