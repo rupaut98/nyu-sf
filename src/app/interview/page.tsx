@@ -86,54 +86,66 @@ export default function InterviewPage() {
     const status = getStatusDisplay();
 
     return (
-      <div className="p-8 min-h-screen bg-black text-white">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold mb-2">Interview for {selectedRole.title}</h2>
-          <button 
-            onClick={() => {
-              setIsInterviewStarted(false);
-              setIsConversationActive(false);
-              setIsSpeaking(false);
-            }}
-            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-          >
-            Back to Roles
-          </button>
-        </div>
-        <div className="flex flex-col items-center gap-8">
-          <AnimatedAvatar isSpeaking={isSpeaking} />
-          
-          <div className="flex flex-col items-center gap-4">
-            {!isConversationActive ? (
-              <button
-                onClick={handleStartConversation}
-                className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors flex items-center gap-2"
-              >
-                <MicrophoneIcon />
-                Start Conversation
-              </button>
-            ) : (
-              <div className="flex flex-col items-center gap-4">
-                <div className={`px-6 py-3 rounded-full ${status.bgColor} flex items-center gap-2`}>
-                  {status.icon}
-                  <span>{status.text}</span>
-                </div>
+      <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+        <div className="max-w-6xl mx-auto p-8">
+          <div className="mb-8 flex justify-between items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                Interview for {selectedRole.title}
+              </h2>
+              <p className="text-gray-600">Department: {selectedRole.department}</p>
+            </div>
+            <button 
+              onClick={() => {
+                setIsInterviewStarted(false);
+                setIsConversationActive(false);
+                setIsSpeaking(false);
+              }}
+              className="px-4 py-2 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors flex items-center gap-2"
+            >
+              <ArrowLeftIcon />
+              Back to Roles
+            </button>
+          </div>
+
+          <div className="flex flex-col items-center gap-12">
+            <div className="relative">
+              <AnimatedAvatar isSpeaking={isSpeaking} />
+              <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2">
+                {!isConversationActive ? (
+                  <button
+                    onClick={handleStartConversation}
+                    className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
+                  >
+                    <MicrophoneIcon />
+                    Start Conversation
+                  </button>
+                ) : (
+                  <div className="flex flex-col items-center gap-4">
+                    <div className={`px-6 py-3 rounded-full ${status.bgColor} flex items-center gap-2 shadow-lg`}>
+                      {status.icon}
+                      <span className="font-medium">{status.text}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {isConversationActive && (
+              <>
                 <button
                   onClick={handleEndConversation}
-                  className="px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                  className="px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors shadow-lg hover:shadow-xl"
                 >
                   End Conversation
                 </button>
-              </div>
+                <Conversation 
+                  onSpeakingStateChange={handleSpeakingStateChange}
+                  isActive={isConversationActive}
+                />
+              </>
             )}
           </div>
-
-          {isConversationActive && (
-            <Conversation 
-              onSpeakingStateChange={handleSpeakingStateChange}
-              isActive={isConversationActive}
-            />
-          )}
         </div>
       </div>
     );
@@ -163,6 +175,12 @@ export default function InterviewPage() {
     </div>
   );
 }
+
+const ArrowLeftIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M19 12H5M12 19l-7-7 7-7" />
+  </svg>
+);
 
 // Icon components
 const MicrophoneIcon = () => (
