@@ -37,11 +37,6 @@
   height: 90%;
   border-radius: 50%;
   background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 12px;
 }
 
 .callButton {

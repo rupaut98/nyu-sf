@@ -30,19 +30,23 @@ export default function InterviewPage() {
   const [isInterviewStarted, setIsInterviewStarted] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isConversationActive, setIsConversationActive] = useState(false);
+  const [conversationState, setConversationState] = useState<'idle' | 'speaking' | 'listening'>('idle');
 
   const startInterview = (role) => {
     setSelectedRole(role);
     setIsInterviewStarted(true);
   };
 
+  const handleSpeakingStateChange = (speaking: boolean) => {
+    setIsSpeaking(speaking);
+    setConversationState(speaking ? 'speaking' : 'listening');
+  };
+
   const handleStartConversation = useCallback(async () => {
-    console.log('Starting conversation...');
     try {
-      // First request microphone permission
       await navigator.mediaDevices.getUserMedia({ audio: true });
       setIsConversationActive(true);
-      console.log('Conversation activated');
+      setConversationState('listening');
     } catch (error) {
       console.error('Failed to get microphone permission:', error);
       alert('Please allow microphone access to start the interview');
@@ -50,12 +54,37 @@ export default function InterviewPage() {
   }, []);
 
   const handleEndConversation = useCallback(() => {
-    console.log('Ending conversation...');
     setIsConversationActive(false);
     setIsSpeaking(false);
+    setConversationState('idle');
   }, []);
 
+  const getStatusDisplay = () => {
+    switch (conversationState) {
+      case 'speaking':
+        return {
+          icon: <WaveformIcon />,
+          text: 'AI is speaking...',
+          bgColor: 'bg-green-500'
+        };
+      case 'listening':
+        return {
+          icon: <MicrophoneIcon />,
+          text: 'Listening to you...',
+          bgColor: 'bg-blue-500'
+        };
+      default:
+        return {
+          icon: <MicrophoneIcon />,
+          text: 'Start Conversation',
+          bgColor: 'bg-blue-500'
+        };
+    }
+  };
+
   if (isInterviewStarted) {
+    const status = getStatusDisplay();
+
     return (
       <div className="p-8 min-h-screen bg-black text-white">
         <div className="mb-6">
@@ -71,22 +100,39 @@ export default function InterviewPage() {
             Back to Roles
           </button>
         </div>
-        <div className="flex gap-8 items-center justify-center">
-          <div className="w-1/3">
-            <AnimatedAvatar 
-              isSpeaking={isSpeaking}
-              onStartConversation={handleStartConversation}
-              onEndConversation={handleEndConversation}
-              isConversationActive={isConversationActive}
-            />
+        <div className="flex flex-col items-center gap-8">
+          <AnimatedAvatar isSpeaking={isSpeaking} />
+          
+          <div className="flex flex-col items-center gap-4">
+            {!isConversationActive ? (
+              <button
+                onClick={handleStartConversation}
+                className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors flex items-center gap-2"
+              >
+                <MicrophoneIcon />
+                Start Conversation
+              </button>
+            ) : (
+              <div className="flex flex-col items-center gap-4">
+                <div className={`px-6 py-3 rounded-full ${status.bgColor} flex items-center gap-2`}>
+                  {status.icon}
+                  <span>{status.text}</span>
+                </div>
+                <button
+                  onClick={handleEndConversation}
+                  className="px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                >
+                  End Conversation
+                </button>
+              </div>
+            )}
           </div>
+
           {isConversationActive && (
-            <div className="w-2/3">
-              <Conversation 
-                onSpeakingStateChange={setIsSpeaking}
-                isActive={isConversationActive}
-              />
-            </div>
+            <Conversation 
+              onSpeakingStateChange={handleSpeakingStateChange}
+              isActive={isConversationActive}
+            />
           )}
         </div>
       </div>
@@ -117,3 +163,23 @@ export default function InterviewPage() {
     </div>
   );
 }
+
+// Icon components
+const MicrophoneIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+    <line x1="12" y1="19" x2="12" y2="23" />
+    <line x1="8" y1="23" x2="16" y2="23" />
+  </svg>
+);
+
+const WaveformIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+    <rect x="4" y="10" width="2" height="4" className="animate-pulse" />
+    <rect x="8" y="8" width="2" height="8" className="animate-pulse delay-100" />
+    <rect x="12" y="6" width="2" height="12" className="animate-pulse delay-200" />
+    <rect x="16" y="8" width="2" height="8" className="animate-pulse delay-300" />
+    <rect x="20" y="10" width="2" height="4" className="animate-pulse delay-400" />
+  </svg>
+);
