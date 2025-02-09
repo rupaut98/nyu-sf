@@ -1,5 +1,5 @@
 // mockData.js
-import { JobPost, UserProfile } from '@/app/types';
+// import { JobPost, UserProfile } from '@/src/app/types';
 
 export const jobPosts: JobPost[] = [
   {
