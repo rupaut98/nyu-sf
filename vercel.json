@@ -4,10 +4,10 @@
     "installCommand": "npm install",
     "framework": "nextjs",
     "env": {
-      "NEXT_PUBLIC_SUPABASE_URL": "@NEXT_PUBLIC_SUPABASE_URL",
-      "NEXT_PUBLIC_ANON": "@NEXT_PUBLIC_ANON",
-      "DATABASE_URL": "@DATABASE_URL",
-      "NEXT_PUBLIC_AGENT_ID": "@NEXT_PUBLIC_AGENT_ID"
+      "NEXT_PUBLIC_SUPABASE_URL": "NEXT_PUBLIC_SUPABASE_URL",
+      "NEXT_PUBLIC_ANON": "NEXT_PUBLIC_ANON",
+      "DATABASE_URL": "DATABASE_URL",
+      "NEXT_PUBLIC_AGENT_ID": "NEXT_PUBLIC_AGENT_ID"
     }
   }
   
