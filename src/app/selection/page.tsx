@@ -1,12 +1,38 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_ANON!
+);
 
 export default function SelectionPage() {
   const router = useRouter();
 
-  const handleRecruiterSelect = () => {
-    router.push('/recruiter/profile-setup');
+  const handleUserTypeSelect = async (type: 'jobseeker' | 'recruiter') => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) throw new Error('No user found');
+
+      // Update user metadata with their type
+      const { error } = await supabase.auth.updateUser({
+        data: { user_type: type }
+      });
+
+      if (error) throw error;
+
+      // Redirect based on type
+      if (type === 'recruiter') {
+        router.push('/recruiter/profile-setup');
+      } else {
+        router.push('/feed/jobseeker');
+      }
+    } catch (error) {
+      console.error('Error setting user type:', error);
+      alert('Failed to set user type. Please try again.');
+    }
   };
 
   return (
@@ -15,8 +41,8 @@ export default function SelectionPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold text-center mb-12">Choose Your Path</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <Link 
-              href="/feed/jobseeker"
+            <button 
+              onClick={() => handleUserTypeSelect('jobseeker')}
               className="group"
             >
               <div className="border-2 border-black p-8 rounded-lg hover:bg-black hover:text-white transition-colors text-center">
@@ -25,9 +51,9 @@ export default function SelectionPage() {
                   Find your next career opportunity by swiping through job listings
                 </p>
               </div>
-            </Link>
+            </button>
             <button 
-              onClick={handleRecruiterSelect}
+              onClick={() => handleUserTypeSelect('recruiter')}
               className="group"
             >
               <div className="border-2 border-black p-8 rounded-lg hover:bg-black hover:text-white transition-colors text-center">
