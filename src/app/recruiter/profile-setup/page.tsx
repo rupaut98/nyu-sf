@@ -39,19 +39,6 @@ export default function RecruiterProfileSetup() {
 
       if (!user) throw new Error('No user found');
 
-      const response = await fetch('/api/recruiter/profile', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user.id,
-          ...profile,
-        }),
-      });
-
-      if (!response.ok) throw new Error('Failed to create profile');
-
       router.push('/recruiter/job-posting');
     } catch (error) {
       console.error('Error saving profile:', error);
