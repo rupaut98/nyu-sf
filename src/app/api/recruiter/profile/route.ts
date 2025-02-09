@@ -4,17 +4,9 @@ import { prisma } from '@lib/prisma';
 
 export async function POST(req: Request) {
   try {
-    if (!req.body) {
-      return NextResponse.json(
-        { error: 'Request body is empty' },
-        { status: 400 }
-      );
-    }
-
     const body = await req.json();
-    console.log('Received body:', body); // Debug log
-
-    if (!body.userId || !body.fullName || !body.company || !body.title) {
+    
+    if (!body || !body.userId || !body.fullName || !body.company || !body.title) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -44,8 +36,8 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ data: profile });
-  } catch (error: any) {
-    console.error('Profile creation error:', error.message);
+  } catch (error) {
+    console.error('Profile creation error:', error);
     return NextResponse.json(
       { error: 'Failed to create profile' },
       { status: 500 }
