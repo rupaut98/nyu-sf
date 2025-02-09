@@ -30,7 +30,8 @@ export async function POST(req: Request) {
         email: body.email || null,
         phone: body.phone || null,
         bio: body.bio || null,
-        linkedIn: body.linkedIn || null,
+        linkedin: body.linkedIn || null,
+        companyWebsite: body.companyWebsite || null,
         privacySettings: {
           create: {
             hideEmail: body.hideEmail || false,

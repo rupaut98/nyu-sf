@@ -21,7 +21,7 @@ model RecruiterProfile {
   company        String
   title          String
   phone          String?
-  linkedin       String?
+  linkedIn       String?
   companyWebsite String?
   bio            String?
   createdAt      DateTime @default(now())
