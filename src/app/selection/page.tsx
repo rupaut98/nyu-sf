@@ -46,7 +46,7 @@ export default function SelectionPage() {
               className="group"
             >
               <div className="border-2 border-black p-8 rounded-lg hover:bg-black hover:text-white transition-colors text-center">
-                <h2 className="text-2xl font-bold text-black mb-4">Job Seeker</h2>
+                <h2 className="text-2xl font-bold text-black mb-4 group-hover:text-white">Job Seeker</h2>
                 <p className="text-black group-hover:text-white">
                   Find your next career opportunity by swiping through job listings
                 </p>
@@ -57,7 +57,7 @@ export default function SelectionPage() {
               className="group"
             >
               <div className="border-2 border-black p-8 rounded-lg hover:bg-black hover:text-white transition-colors text-center">
-                <h2 className="text-2xl text-black font-bold mb-4">Recruiter</h2>
+                <h2 className="text-2xl text-black font-bold mb-4 group-hover:text-white">Recruiter</h2>
                 <p className="text-black group-hover:text-white">
                   Find talented candidates by swiping through profiles
                 </p>

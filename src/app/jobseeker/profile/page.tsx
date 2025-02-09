@@ -258,7 +258,7 @@ export default function JobSeekerProfile() {
               {profile.skills.map((skill, index) => (
                 <span
                   key={index}
-                  className="bg-gray-100 px-3 py-1 rounded-full text-sm"
+                  className="bg-gray-100 px-3 py-1 rounded-full text-sm text-black"
                 >
                   {skill}
                 </span>
