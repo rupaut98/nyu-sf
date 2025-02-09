@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Camera, Plus, LogOut } from 'lucide-react';
-import FeedNavbar from '@/app/components/FeedNavbar';
+import FeedNavbar from '@/src/app/components/FeedNavbar';
 
 interface Experience {
   id: string;
