@@ -1,6 +1,6 @@
 # Swiped-In: Reinventing Hiring with AI and Swipe-Based Matching
 
-Swiped-In transforms job searching and hiring into an **interactive, AI-driven experience**. Inspired by swipe-based apps, we built a seamless matching platform where **job seekers** and **recruiters** connect effortlessly. This project was built for **HackNYU 2025** within an intense 48-hour coding sprint. 🚀
+Swiped-In transforms job searching and hiring into an **interactive, AI-driven experience**. Inspired by swipe-based apps, we built a seamless matching platform where **job seekers** and **recruiters** connect effortlessly. This project was built for **HackNYU 2025** within an intense 1 dau coding sprint. 🚀
 
 ## Inspiration
 The hiring process is often slow, impersonal, and frustrating. We set out to create a **fast, intuitive, and engaging** way to match candidates with jobs—just like dating apps revolutionized relationships, we’re reimagining hiring.
@@ -26,10 +26,10 @@ The hiring process is often slow, impersonal, and frustrating. We set out to cre
 ## Challenges We Faced
 - **AI Screening Integration**: Fine-tuning AI interview questions for different job roles.
 - **Scalability**: Structuring MongoDB to handle job postings, resumes, matches, AI responses, and chat interactions efficiently.
-- **Time Constraints**: Building a **fully functional** job-matching platform in under **48 hours**.
+- **Time Constraints**: Building a **fully functional** job-matching platform in under **18 hours**.
 
 ## Accomplishments We’re Proud Of
-- **Built a working prototype in just 48 hours!** 🚀
+- **Built a working prototype in just 18 hours!** 🚀
 - **Successfully integrated AI-powered recruiter interviews.**
 - **Created a smooth, intuitive swipe-based job-matching experience.**
 - **Used MongoDB Atlas for fast, scalable data handling.**
