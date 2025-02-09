@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model RecruiterProfile {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String   @unique
+  fullName       String
+  email          String
+  company        String
+  title          String
+  phone          String?
+  linkedIn       String?
+  companyWebsite String?
+  bio            String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  jobs           Job[]
+  privacySettings PrivacySettings?
+}
+
+model PrivacySettings {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  hideEmail   Boolean  @default(false)
+  hidePhone   Boolean  @default(false)
+  
+  profile     RecruiterProfile @relation(fields: [profileId], references: [id])
+  profileId   String   @unique @db.ObjectId
+
+  @@map("privacy_settings")
+}
+
+model Job {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  company     String
+  location    String
+  type        String   // Full-time, Part-time, Contract, etc.
+  description String
+  salary      String?
+  requirements String[]
+  
+  recruiter   RecruiterProfile @relation(fields: [recruiterId], references: [id])
+  recruiterId String   @db.ObjectId
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("jobs")
+}
+
+model JobSeekerProfile {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @unique
+  fullName    String
+  email       String
+  phone       String?
+  linkedin    String?
+  portfolio   String?
+  bio         String?
+  education   Json
+  experience  Json[]
+  skills      String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
