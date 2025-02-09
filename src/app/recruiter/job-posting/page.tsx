@@ -145,13 +145,17 @@ Core Responsibilities:
               { label: 'Location', name: 'location', type: 'text', placeholder: 'Enter location' },
             ].map(({ label, name, type, placeholder }) => (
               <div key={name}>
+
                 <label className="block text-lg text-black font-semibold text-gray-700">{label} *</label>
+
                 <input
                   type={type}
                   name={name}
                   required
                   placeholder={placeholder}
+
                   className="mt-1 block w-full text-black rounded-md border border-gray-400 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 px-3 py-2"
+
                   value={job[name as keyof typeof job] as string}
                   onChange={handleInputChange}
                 />
@@ -163,7 +167,9 @@ Core Responsibilities:
               <select
                 name="type"
                 required
+
                 className="mt-1 block w-full text-blackrounded-md border border-gray-400 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 px-3 py-2"
+
                 value={job.type}
                 onChange={handleInputChange}
               >
@@ -180,7 +186,9 @@ Core Responsibilities:
                 type="text"
                 name="salary"
                 placeholder="e.g., $50,000 - $70,000"
+
                 className="mt-1 block w-full text-black rounded-md border border-gray-400 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 px-3 py-2"
+
                 value={job.salary}
                 onChange={handleInputChange}
               />
@@ -192,7 +200,9 @@ Core Responsibilities:
                 name="description"
                 required
                 rows={4}
+
                 className="mt-1 block w-full text-black rounded-md border border-gray-400 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 px-3 py-2"
+
                 value={job.description}
                 onChange={handleInputChange}
               />
@@ -207,12 +217,14 @@ Core Responsibilities:
                     value={req}
                     onChange={(e) => handleRequirementChange(index, e.target.value)}
                     className="flex-1 rounded-md text-black border border-gray-400 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 px-3 py-2"
+
                     placeholder="Add a requirement"
                   />
                   <button
                     type="button"
                     onClick={() => removeRequirement(index)}
                     className="px-3 py-2 border text-black border-red-500 text-red-500 rounded-md bg-white hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+
                   >
                     Remove
                   </button>
@@ -230,7 +242,9 @@ Core Responsibilities:
             <div className="flex justify-end">
               <button
                 type="submit"
+
                 className="bg-indigo-600 text-black text-white px-6 py-3 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+
               >
                 Post Job
               </button>
