@@ -1,6 +1,14 @@
+'use client';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function SelectionPage() {
+  const router = useRouter();
+
+  const handleRecruiterSelect = () => {
+    router.push('/recruiter/profile-setup');
+  };
+
   return (
     <div className="min-h-screen bg-white flex flex-col">
       <div className="flex-1 flex items-center justify-center">
@@ -18,8 +26,8 @@ export default function SelectionPage() {
                 </p>
               </div>
             </Link>
-            <Link 
-              href="/feed/recruiter"
+            <button 
+              onClick={handleRecruiterSelect}
               className="group"
             >
               <div className="border-2 border-black p-8 rounded-lg hover:bg-black hover:text-white transition-colors text-center">
@@ -28,7 +36,7 @@ export default function SelectionPage() {
                   Find talented candidates by swiping through profiles
                 </p>
               </div>
-            </Link>
+            </button>
           </div>
         </div>
       </div>
