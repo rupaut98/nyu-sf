@@ -14,19 +14,35 @@ export default function AuthPage() {
   const router = useRouter();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session) {
-        const createdAt = new Date(session.user.created_at);
-        const signInTime = new Date();
-        const isNewUser = (signInTime.getTime() - createdAt.getTime()) < 5000; // Within 5 seconds
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!session?.user) return;
 
-        if (isNewUser) {
+      if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
+        const userType = session.user.user_metadata.user_type;
+        
+        if (!userType) {
           router.push('/selection');
+          return;
+        }
+        
+        if (userType === 'recruiter') {
+          const response = await fetch(`/api/recruiter/profile/check/${session.user.id}`);
+          const { hasProfile } = await response.json();
+          
+          if (hasProfile) {
+            router.push('/recruiter/dashboard');
+          } else if (window.location.pathname !== '/recruiter/profile-setup') {
+            router.push('/recruiter/profile-setup');
+          }
         } else {
           router.push('/feed/jobseeker');
         }
       }
     });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [router]);
 
   return (
