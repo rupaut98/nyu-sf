@@ -74,138 +74,133 @@ export default function JobSeekerDashboard() {
   };
 
   return (
-
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        </div>
-
-        <div className="border-b border-gray-200">
-          <nav className="flex space-x-8">
-            <button
-              onClick={() => setActiveTab('posts')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'posts'
-                  ? 'border-black text-black'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              My Posts
-            </button>
-            <button
-              onClick={() => setActiveTab('matches')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'matches'
-                  ? 'border-black text-black'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Job Matches
-            </button>
-          </nav>
-        </div>
-      </div>
-
-      {activeTab === 'posts' ? (
-        <div className="space-y-6">
-          {/* Create Post */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <form onSubmit={handlePostSubmit}>
-              <textarea
-                value={newPost}
-                onChange={(e) => setNewPost(e.target.value)}
-                placeholder="Share your thoughts, achievements, or job search status..."
-                className="w-full p-4 border rounded-lg focus:ring-black focus:border-black"
-                rows={3}
-              />
-              <div className="mt-4 flex justify-end">
-                <button
-                  type="submit"
-                  className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
-                >
-                  Post
-                </button>
-              </div>
-            </form>
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-black mb-6">Dashboard</h1>
+          
+          <div className="border-b border-gray-200">
+            <nav className="flex space-x-8">
+              <button
+                onClick={() => setActiveTab('posts')}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  activeTab === 'posts'
+                    ? 'border-indigo-600 text-black'
+                    : 'border-transparent text-black hover:text-black hover:border-gray-300'
+                }`}
+              >
+                My Posts
+              </button>
+              <button
+                onClick={() => setActiveTab('matches')}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  activeTab === 'matches'
+                    ? 'border-indigo-600 text-black'
+                    : 'border-transparent text-black hover:text-black hover:border-gray-300'
+                }`}
+              >
+                Job Matches
+              </button>
+            </nav>
           </div>
+        </div>
 
-          {/* Posts List */}
-          {posts.map((post) => (
-            <div key={post.id} className="bg-white rounded-lg shadow p-6">
-              <p className="text-gray-800 mb-4">{post.content}</p>
-              <div className="flex items-center justify-between text-sm text-gray-500">
-                <div className="flex space-x-4">
-                  <button className="flex items-center space-x-1 hover:text-black">
-                    <span>👍</span>
-                    <span>{post.likes}</span>
-                  </button>
-                  <button className="flex items-center space-x-1 hover:text-black">
-                    <span>💬</span>
-                    <span>{post.comments}</span>
+        {activeTab === 'posts' ? (
+          <div className="space-y-6">
+            {/* Create Post */}
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <form onSubmit={handlePostSubmit}>
+                <textarea
+                  value={newPost}
+                  onChange={(e) => setNewPost(e.target.value)}
+                  placeholder="Share your thoughts, achievements, or job search status..."
+                  className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-black"
+                  rows={3}
+                />
+                <div className="mt-4 flex justify-end">
+                  <button
+                    type="submit"
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+                  >
+                    Post
                   </button>
                 </div>
-                <span>{new Date(post.createdAt).toLocaleDateString()}</span>
-              </div>
+              </form>
             </div>
 
-          ))}
-        </div>
-      ) : (
-        <div className="space-y-6">
-          {matches.map((match) => (
-            <div key={match.id} className="bg-white rounded-lg shadow p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="text-xl font-semibold">{match.position}</h3>
-                  <p className="text-gray-600">{match.company}</p>
-                  <p className="text-gray-500 text-sm">{match.location}</p>
-                </div>
-                <div className="text-right">
-                  <span className="bg-green-100 text-green-800 text-sm px-2 py-1 rounded-full">
-                    {match.matchPercentage}% Match
-                  </span>
-                  <p className="text-gray-600 mt-2">{match.salary}</p>
+            {/* Posts List */}
+            {posts.map((post) => (
+              <div key={post.id} className="bg-white rounded-lg shadow-lg p-6">
+                <p className="text-black text-lg mb-4">{post.content}</p>
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex space-x-6">
+                    <button className="flex items-center space-x-2 text-black hover:text-indigo-600">
+                      <span>👍</span>
+                      <span>{post.likes}</span>
+                    </button>
+                    <button className="flex items-center space-x-2 text-black hover:text-indigo-600">
+                      <span>💬</span>
+                      <span>{post.comments}</span>
+                    </button>
+                  </div>
+                  <span className="text-black">{new Date(post.createdAt).toLocaleDateString()}</span>
                 </div>
               </div>
-
-
-              <div className="mb-4">
-                <div className="text-sm text-gray-500 mb-2">Required Skills</div>
-                <div className="flex flex-wrap gap-2">
-                  {match.requirements.map((skill) => (
-                    <span
-                      key={skill}
-                      className="bg-gray-100 px-3 py-1 rounded-full text-sm"
-                    >
-                      {skill}
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {matches.map((match) => (
+              <div key={match.id} className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3 className="text-xl font-semibold text-black">{match.position}</h3>
+                    <p className="text-black">{match.company}</p>
+                    <p className="text-black text-sm mt-1">{match.location}</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-black">
+                      {match.matchPercentage}% Match
                     </span>
-                  ))}
+                    <p className="text-black font-medium mt-2">{match.salary}</p>
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <p className="text-sm text-black mb-2">Required Skills</p>
+                  <div className="flex flex-wrap gap-2">
+                    {match.requirements.map((skill) => (
+                      <span
+                        key={skill}
+                        className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-gray-100 text-black"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+                  <span className="text-sm font-medium text-black">
+                    {match.status}
+                  </span>
+                  <div className="flex items-center space-x-4">
+                    <span className="text-sm text-black">
+                      Posted {match.postedAt}
+                    </span>
+                    <button className="text-sm text-black hover:text-black">
+                      View Details
+                    </button>
+                    <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                      Apply Now
+                    </button>
+                  </div>
                 </div>
               </div>
-
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-blue-600 font-medium">
-                  {match.status}
-                </span>
-                <span className="text-sm text-gray-500">
-                  Posted {match.postedAt}
-                </span>
-              </div>
-
-              <div className="mt-4 flex justify-end space-x-3">
-                <button className="text-sm text-gray-600 hover:text-gray-900">
-                  View Details
-                </button>
-                <button className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 text-sm">
-                  Apply Now
-                </button>
-
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
