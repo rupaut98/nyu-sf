@@ -31,7 +31,7 @@ export default function JobSeekerFeed() {
     setCurrentIndex((prev) =>
       direction === 'right'
         ? Math.min(prev + 1, jobPosts.length - 1)
-        : Math.max(prev - 1, 0)
+        : Math.max(prev + 1, 0)
     );
   };
 

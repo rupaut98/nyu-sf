@@ -296,7 +296,7 @@ export default function JobSeekerDashboard() {
                 value={newPost}
                 onChange={(e) => setNewPost(e.target.value)}
                 placeholder="Share your thoughts, achievements, or job search status..."
-                className="w-full p-4 border rounded-lg focus:ring-black focus:border-black"
+                className="w-full p-4 border rounded-lg focus:ring-black focus:border-black text-black"
                 rows={3}
               />
               <div className="mt-4 flex justify-end">
