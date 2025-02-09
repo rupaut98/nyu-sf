@@ -7,42 +7,46 @@ export default function ConversationPage() {
   
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Interview Conversation</h1>
+      <h1 className="text-2xl font-bold mb-6 text-gray-800">Interview Conversation</h1>
       
       <div className="space-y-8">
         {CONVERSATION_HISTORY.map((section, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800">
+          <div
+            key={index}
+            className="bg-white rounded-lg shadow-md p-6 border border-gray-200"
+          >
+            <h2 className="text-xl font-semibold mb-4 text-gray-700">
               {section.section}
             </h2>
             
             <div className="space-y-4">
-              {section.messages.map((message, msgIndex) => (
-                <div
-                  key={msgIndex}
-                  className={`flex flex-col ${
-                    message.speaker.includes('Aria') ? 'items-start' : 'items-end'
-                  }`}
-                >
+              {section.messages.map((message, msgIndex) => {
+                const isRecruiter = message.speaker.includes('Bipul');
+                return (
                   <div
-                    className={`max-w-[80%] rounded-lg p-4 ${
-                      message.speaker.includes('Aria')
-                        ? 'bg-gray-100'
-                        : 'bg-blue-100'
-                    }`}
+                    key={msgIndex}
+                    className={`flex ${isRecruiter ? 'justify-start' : 'justify-end'}`}
                   >
-                    <p className="text-sm font-semibold mb-1">
-                      {message.speaker}
-                    </p>
-                    <p className="text-gray-700 whitespace-pre-wrap">
-                      {message.message}
-                    </p>
-                    <p className="text-xs text-gray-500 mt-2">
-                      {new Date(message.timestamp).toLocaleTimeString()}
-                    </p>
+                    <div
+                      className={`max-w-[80%] rounded-lg p-4 shadow-sm transition-colors duration-200 ${
+                        isRecruiter
+                          ? 'bg-indigo-100 text-gray-800'
+                          : 'bg-green-100 text-gray-800'
+                      }`}
+                    >
+                      <p className="text-sm font-semibold mb-1">
+                        {message.speaker}
+                      </p>
+                      <p className="text-base whitespace-pre-wrap">
+                        {message.message}
+                      </p>
+                      <p className="text-xs mt-2 text-gray-500">
+                        {new Date(message.timestamp).toLocaleTimeString()}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         ))}
