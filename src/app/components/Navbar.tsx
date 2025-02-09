@@ -7,7 +7,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
             <Link href="/" className="text-2xl font-bold text-black">
-              SwipedIn
+              Swiped-In
             </Link>
           </div>
           <div>
