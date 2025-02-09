@@ -125,12 +125,7 @@ export default function JobSeekerFeed() {
                     >
                       <TiThumbsDown className="w-6 h-6" />
                     </button>
-                    <button
-                      onClick={handleStartInterview}
-                      className="bg-blue-500 z-50 text-white px-6 h-12 rounded-full shadow-lg hover:bg-blue-600 transition-colors flex items-center justify-center"
-                    >
-                      Start Interview
-                    </button>
+                   
                     <button
                       onClick={() => handleSwipe('right')}
                       className="bg-green-500 z-50 text-white w-12 h-12 rounded-full shadow-lg hover:bg-green-600 transition-colors flex items-center justify-center"
