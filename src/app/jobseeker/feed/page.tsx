@@ -46,22 +46,25 @@ export default function JobSeekerFeed() {
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200">
       <div className="flex flex-col md:flex-row min-h-screen">
         <div className="flex-1 relative p-8 hidden md:block">
-          {/* Background Image */}
-          <Image
-            src="/background.svg"
-            alt="Background Graphic"
-            width={450}
-            height={450}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-contain mt-10 ml-[-2rem]"
-          />
-          {/* Text Content */}
-          <div className="relative z-10 text-left mt-[5rem] ml-10">
-            <h1 className="text-5xl font-bold text-indigo-600">
-              Every swipe takes you closer to your dream job
-            </h1>
-            <p className="mt-2 text-lg text-gray-700">
-              Get matched up for a job and do mock interview easily
-            </p>
+          <div className="fixed max-w-[50%] flex flex-col">
+            <div className="relative z-10 text-left mt-[5rem] ml-10">
+              <h1 className="text-5xl font-bold text-indigo-600">
+                Every swipe takes you closer to your dream job
+              </h1>
+              <p className="mt-2 text-lg text-gray-700">
+                Job search made as easy as Tinder. Match with your dream job and complete a screening interview with the recruiter's AI agent
+              </p>
+            </div>
+
+            <div className="relative mt-8">
+              <Image
+                src="/background.svg"
+                alt="Background Graphic"
+                width={450}
+                height={450}
+                className="object-contain"
+              />
+            </div>
           </div>
         </div>
 
