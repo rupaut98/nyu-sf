@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { useRouter } from "next/navigation";
+import { useEffect } from 'react';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,12 +13,21 @@ const supabase = createClient(
 export default function AuthPage() {
   const router = useRouter();
 
-  supabase.auth.onAuthStateChange((event) => {
-    if (event === "SIGNED_IN") {
-      // Redirect to the feed page after successful login
-      router.push('/feed/jobseeker');
-    }
-  });
+  useEffect(() => {
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        const createdAt = new Date(session.user.created_at);
+        const signInTime = new Date();
+        const isNewUser = (signInTime.getTime() - createdAt.getTime()) < 5000; // Within 5 seconds
+
+        if (isNewUser) {
+          router.push('/selection');
+        } else {
+          router.push('/feed/jobseeker');
+        }
+      }
+    });
+  }, [router]);
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gray-50">

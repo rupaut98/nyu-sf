@@ -1,3 +1,4 @@
+// src/app/feed/jobseeker/page.tsx
 'use client';
 import { useState } from 'react';
 import FeedNavbar from '../../components/FeedNavbar';
