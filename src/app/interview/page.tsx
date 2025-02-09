@@ -1,8 +1,8 @@
 // src/app/interview/page.tsx
 "use client";
 
-import { useState, useCallback } from "react";
-import { Conversation } from "../components/conversation";
+import { useState, useCallback, useRef } from "react";
+import { useConversation } from '@11labs/react';
 import { AnimatedAvatar } from "../components/AnimatedAvatar";
 import { StatusDisplay } from "../components/StatusDisplay";
 import { ArrowLeftIcon, MicrophoneIcon, StopIcon } from "../components/Icons";
@@ -31,37 +31,79 @@ const AVAILABLE_ROLES = [
 export default function InterviewPage() {
   const [selectedRole, setSelectedRole] = useState<any>(null);
   const [isInterviewStarted, setIsInterviewStarted] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
   const [isConversationActive, setIsConversationActive] = useState(false);
-  const [conversationState, setConversationState] = useState<'idle' | 'speaking' | 'listening'>('idle');
+  const conversationStarted = useRef(false);
+
+  // Initialize conversation with the hook
+  const conversation = useConversation({
+    onConnect: () => {
+      console.log('Connected to conversation service');
+      setIsConversationActive(true);
+    },
+    onDisconnect: () => {
+      console.log('Disconnected from conversation service');
+      conversationStarted.current = false;
+      setIsConversationActive(false);
+    },
+    onMessage: (message) => {
+      console.log('Received message:', message);
+    },
+    onError: (error) => {
+      console.error('Conversation error:', error);
+      conversationStarted.current = false;
+      setIsConversationActive(false);
+    },
+  });
 
   const startInterview = (role: any) => {
     setSelectedRole(role);
     setIsInterviewStarted(true);
   };
 
-  const handleSpeakingStateChange = useCallback((speaking: boolean) => {
-    console.log('Speaking state changed:', speaking); // Debug log
-    setIsSpeaking(speaking);
-    setConversationState(speaking ? 'speaking' : 'listening');
-  }, []);
-
   const handleStartConversation = useCallback(async () => {
-    try {
-      await navigator.mediaDevices.getUserMedia({ audio: true });
-      setIsConversationActive(true);
-      setConversationState('listening');
-    } catch (error) {
-      console.error('Failed to get microphone permission:', error);
-      alert('Please allow microphone access to start the interview');
+    if (!conversation) {
+      console.error('Conversation not initialized');
+      return;
     }
-  }, []);
 
-  const handleEndConversation = useCallback(() => {
-    setIsConversationActive(false);
-    setIsSpeaking(false);
-    setConversationState('idle');
-  }, []);
+    if (conversationStarted.current) {
+      console.log('Conversation already started');
+      return;
+    }
+
+    try {
+      // Request microphone access
+      console.log('Requesting microphone access...');
+      await navigator.mediaDevices.getUserMedia({ audio: true });
+      
+      // Start the conversation session
+      console.log('Starting conversation session...');
+      await conversation.startSession({
+        agentId: process.env.NEXT_PUBLIC_AGENT_ID!,
+      });
+      
+      console.log('Conversation started successfully');
+      conversationStarted.current = true;
+      
+      // Set initial volume
+      await conversation.setVolume({ volume: 0.8 });
+      
+    } catch (error) {
+      console.error('Failed to start conversation:', error);
+      alert('Please allow microphone access to start the interview');
+      conversationStarted.current = false;
+    }
+  }, [conversation]);
+
+  const handleEndConversation = useCallback(async () => {
+    try {
+      await conversation.endSession();
+      setIsConversationActive(false);
+      conversationStarted.current = false;
+    } catch (error) {
+      console.error('Failed to end conversation:', error);
+    }
+  }, [conversation]);
 
   if (isInterviewStarted) {
     return (
@@ -77,9 +119,8 @@ export default function InterviewPage() {
             </div>
             <button 
               onClick={() => {
+                handleEndConversation();
                 setIsInterviewStarted(false);
-                setIsConversationActive(false);
-                setIsSpeaking(false);
               }}
               className="px-4 py-2 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors flex items-center gap-2"
             >
@@ -90,9 +131,9 @@ export default function InterviewPage() {
 
           {/* Main content */}
           <div className="grid grid-cols-1 gap-16">
-            {/* Avatar Section - Now with proper speaking state */}
+            {/* Avatar Section */}
             <div className="flex justify-center">
-              <AnimatedAvatar isSpeaking={isSpeaking} />
+              <AnimatedAvatar isSpeaking={conversation.isSpeaking} />
             </div>
 
             {/* Controls Section */}
@@ -107,7 +148,7 @@ export default function InterviewPage() {
                 </button>
               ) : (
                 <div className="flex flex-col items-center gap-4">
-                  <StatusDisplay state={conversationState} />
+                  <StatusDisplay state={conversation.isSpeaking ? 'speaking' : 'listening'} />
                   <button 
                     onClick={handleEndConversation}
                     className="flex items-center gap-2 px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all transform hover:scale-105 shadow-lg"
@@ -118,14 +159,6 @@ export default function InterviewPage() {
                 </div>
               )}
             </div>
-
-            {/* Conversation Component - Now with proper speaking handler */}
-            {isConversationActive && (
-              <Conversation 
-                onSpeakingStateChange={handleSpeakingStateChange}
-                isActive={isConversationActive}
-              />
-            )}
           </div>
         </div>
       </div>
