@@ -12,7 +12,7 @@ const supabase = createClient(
 export default function RecruiterProfileSetup() {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const [profile, setProfile] = useState({
+  const [profile, setProf-ile] = useState({
     fullName: '',
     company: '',
     title: '',
