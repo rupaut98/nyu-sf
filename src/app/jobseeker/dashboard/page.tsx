@@ -337,7 +337,7 @@ export default function JobSeekerDashboard() {
             <div key={match.id} className="bg-white rounded-lg shadow p-6">
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="text-xl font-semibold">{match.position}</h3>
+                  <h3 className="text-xl font-semibold text-black">{match.position}</h3>
                   <p className="text-gray-600">{match.company}</p>
                   <p className="text-gray-500 text-sm">{match.location}</p>
                 </div>
@@ -354,7 +354,7 @@ export default function JobSeekerDashboard() {
                   {match.requirements.map((skill) => (
                     <span
                       key={skill}
-                      className="bg-gray-100 px-3 py-1 rounded-full text-sm"
+                      className="bg-gray-100 px-3 py-1 rounded-full text-black text-sm"
                     >
                       {skill}
                     </span>
