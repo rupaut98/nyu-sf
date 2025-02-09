@@ -15,26 +15,31 @@ export function Conversation({ onSpeakingStateChange, isActive }: ConversationPr
   const conversation = useConversation({
     onConnect: () => {
       console.log('Connected to conversation service');
+      conversation.setActive(true);
     },
     onDisconnect: () => {
       console.log('Disconnected from conversation service');
       conversationStarted.current = false;
       onSpeakingStateChange(false);
+      conversation.setActive(false);
     },
     onMessage: (message) => {
       console.log('Received message:', message);
       if (message.type === 'start-speaking') {
         console.log('AI started speaking');
         onSpeakingStateChange(true);
+        conversation.setActive(true);
       } else if (message.type === 'end-speaking') {
         console.log('AI stopped speaking');
         onSpeakingStateChange(false);
+        // Don't set active to false here as we're still in the conversation
       }
     },
     onError: (error) => {
       console.error('Conversation error:', error);
       conversationStarted.current = false;
       onSpeakingStateChange(false);
+      conversation.setActive(false);
     },
   });
 

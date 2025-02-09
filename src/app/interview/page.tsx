@@ -98,16 +98,22 @@ export default function InterviewPage() {
             {/* Controls Section */}
             <div className="flex justify-center">
               {!isConversationActive ? (
-                <button onClick={handleStartConversation}>
-                  Start Conversation
+                <button 
+                  onClick={handleStartConversation}
+                  className="flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all transform hover:scale-105 shadow-lg"
+                >
+                  <MicrophoneIcon className="w-5 h-5" />
+                  Start Interview
                 </button>
               ) : (
-                <div className="flex flex-col items-center gap-6">
-                  <div>
-                    {isSpeaking ? 'AI is speaking...' : 'AI is listening...'}
-                  </div>
-                  <button onClick={handleEndConversation}>
-                    End Conversation
+                <div className="flex flex-col items-center gap-4">
+                  <StatusDisplay state={conversationState} />
+                  <button 
+                    onClick={handleEndConversation}
+                    className="flex items-center gap-2 px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all transform hover:scale-105 shadow-lg"
+                  >
+                    <StopIcon className="w-5 h-5" />
+                    End Interview
                   </button>
                 </div>
               )}
