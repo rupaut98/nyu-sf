@@ -1,6 +1,6 @@
-// src/app/interview/page.tsx
 "use client";
 
+import FeedNavbar from '../components/FeedNavbar';
 import { useState, useCallback, useRef } from "react";
 import { useConversation } from '@11labs/react';
 import { AnimatedAvatar } from "../components/AnimatedAvatar";
@@ -29,12 +29,11 @@ const AVAILABLE_ROLES = [
 ];
 
 export default function InterviewPage() {
-  const [selectedRole, setSelectedRole] = useState<any>(null);
+  const [selectedRole, setSelectedRole] = useState(null);
   const [isInterviewStarted, setIsInterviewStarted] = useState(false);
   const [isConversationActive, setIsConversationActive] = useState(false);
   const conversationStarted = useRef(false);
 
-  // Initialize conversation with the hook
   const conversation = useConversation({
     onConnect: () => {
       console.log('Connected to conversation service');
@@ -55,7 +54,7 @@ export default function InterviewPage() {
     },
   });
 
-  const startInterview = (role: any) => {
+  const startInterview = (role) => {
     setSelectedRole(role);
     setIsInterviewStarted(true);
   };
@@ -72,22 +71,19 @@ export default function InterviewPage() {
     }
 
     try {
-      // Request microphone access
       console.log('Requesting microphone access...');
       await navigator.mediaDevices.getUserMedia({ audio: true });
-      
-      // Start the conversation session
+
       console.log('Starting conversation session...');
       await conversation.startSession({
         agentId: process.env.NEXT_PUBLIC_AGENT_ID!,
       });
-      
+
       console.log('Conversation started successfully');
       conversationStarted.current = true;
-      
-      // Set initial volume
+
       await conversation.setVolume({ volume: 0.8 });
-      
+
     } catch (error) {
       console.error('Failed to start conversation:', error);
       alert('Please allow microphone access to start the interview');
@@ -107,85 +103,88 @@ export default function InterviewPage() {
 
   if (isInterviewStarted) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
-        <div className="max-w-6xl mx-auto p-8">
-          {/* Header */}
+      <div className="min-h-screen bg-gray-100 flex flex-col items-center">
+        <FeedNavbar />
+        <div className="max-w-7xl mx-auto px-6 py-12 flex-grow pt-20">
           <div className="mb-12 flex justify-between items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-2">
+              <h2 className="text-4xl font-bold text-gray-800 mb-2 leading-tight tracking-tight">
                 Interview for {selectedRole.title}
               </h2>
-              <p className="text-gray-600">Department: {selectedRole.department}</p>
+              <p className="text-lg text-gray-600">Department: {selectedRole.department}</p>
             </div>
-            <button 
+          </div>
+
+          <div className="bg-white border border-gray-200 rounded-2xl shadow-lg p-8">
+            <div className="grid grid-cols-1 gap-16 md:grid-cols-2 md:gap-24 items-center">
+              <div className="flex justify-center">
+                <AnimatedAvatar isSpeaking={conversation.isSpeaking} className="w-48 h-48 md:w-64 md:h-64" />
+              </div>
+
+              <div className="flex flex-col items-center">
+                {!isConversationActive ? (
+                  <button
+                    onClick={handleStartConversation}
+                    className="flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all transform hover:scale-105 shadow-lg text-lg font-medium"
+                  >
+                    <MicrophoneIcon className="w-6 h-6" />
+                    Start Interview
+                  </button>
+                ) : (
+                  <div className="flex flex-col items-center gap-6">
+                    <StatusDisplay state={conversation.isSpeaking ? 'speaking' : 'listening'} />
+                    <button
+                      onClick={handleEndConversation}
+                      className="flex items-center gap-3 px-8 py-4 bg-red-600 text-white rounded-full hover:bg-red-700 transition-all transform hover:scale-105 shadow-lg text-lg font-medium"
+                    >
+                      <StopIcon className="w-6 h-6" />
+                      End Interview
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="mt-12 flex justify-center"> {/* Back to Roles at bottom */}
+            <button
               onClick={() => {
                 handleEndConversation();
                 setIsInterviewStarted(false);
               }}
-              className="px-4 py-2 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors flex items-center gap-2"
+              className="px-8 py-4 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors font-medium flex items-center gap-2 shadow-lg"
             >
-              <ArrowLeftIcon />
+              <ArrowLeftIcon className="w-5 h-5" />
               Back to Roles
             </button>
-          </div>
-
-          {/* Main content */}
-          <div className="grid grid-cols-1 gap-16">
-            {/* Avatar Section */}
-            <div className="flex justify-center">
-              <AnimatedAvatar isSpeaking={conversation.isSpeaking} />
-            </div>
-
-            {/* Controls Section */}
-            <div className="flex justify-center">
-              {!isConversationActive ? (
-                <button 
-                  onClick={handleStartConversation}
-                  className="flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all transform hover:scale-105 shadow-lg"
-                >
-                  <MicrophoneIcon className="w-5 h-5" />
-                  Start Interview
-                </button>
-              ) : (
-                <div className="flex flex-col items-center gap-4">
-                  <StatusDisplay state={conversation.isSpeaking ? 'speaking' : 'listening'} />
-                  <button 
-                    onClick={handleEndConversation}
-                    className="flex items-center gap-2 px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all transform hover:scale-105 shadow-lg"
-                  >
-                    <StopIcon className="w-5 h-5" />
-                    End Interview
-                  </button>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </div>
     );
   }
 
-  // Roles list view
   return (
-    <div className="p-8 min-h-screen bg-black text-white">
-      <h1 className="text-3xl font-bold mb-6">Available Positions</h1>
-      <div className="grid gap-6">
-        {AVAILABLE_ROLES.map((role) => (
-          <div 
-            key={role.id} 
-            className="border rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
-          >
-            <h2 className="text-xl font-semibold mb-2">{role.title}</h2>
-            <p className="text-gray-300 mb-2">Department: {role.department}</p>
-            <p className="text-gray-300 mb-4">{role.description}</p>
-            <button
-              onClick={() => startInterview(role)}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center">
+      <FeedNavbar />
+      <div className="max-w-5xl mx-auto pt-20">
+        <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Your Matches!</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {AVAILABLE_ROLES.map((role) => (
+            <div
+              key={role.id}
+              className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow text-gray-800"
             >
-              Start Interview
-            </button>
-          </div>
-        ))}
+              <h2 className="text-2xl font-semibold mb-3">{role.title}</h2>
+              <p className="text-gray-600 mb-3">Department: {role.department}</p>
+              <p className="text-gray-600 mb-4">{role.description}</p>
+              <button
+                onClick={() => startInterview(role)}
+                className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium"
+              >
+                Start Interview
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ export default function FeedNavbar() {
             <Link href="/feed/jobseeker" className="text-gray-600 hover:text-black">
               <Home className="w-6 h-6" />
             </Link>
-            <Link href="/messages" className="text-gray-600 hover:text-black">
+            <Link href="/interview" className="text-gray-600 hover:text-black">
               <MessageCircle className="w-6 h-6" />
             </Link>
             <Link href="/profile" className="text-gray-600 hover:text-black">
