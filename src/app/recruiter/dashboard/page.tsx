@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
+import { FiExternalLink } from 'react-icons/fi';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -32,6 +33,7 @@ const MOCK_MATCHES = [
     matchPercentage: 95,
     skills: ['React', 'Node.js', 'TypeScript'],
     experience: '8 years',
+    hasAiInterview: true,
   },
   {
     id: 2,
@@ -42,6 +44,7 @@ const MOCK_MATCHES = [
     matchPercentage: 87,
     skills: ['Python', 'Django', 'AWS'],
     experience: '5 years',
+    hasAiInterview: false,
   },
 ];
 
@@ -231,6 +234,14 @@ export default function RecruiterDashboard() {
                         Contact
                       </button>
                     </div>
+                    {match.hasAiInterview && (
+                      <Link 
+                        href={`/recruiter/matches/${match.id}/conversation`}
+                        className="inline-flex items-center px-3 py-1 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                      >
+                        View AI Interview <FiExternalLink className="ml-2" />
+                      </Link>
+                    )}
                   </div>
                 ))}
               </div>
