@@ -1,6 +1,6 @@
 # Swiped-In: Reinventing Hiring with AI and Swipe-Based Matching
 
-Swiped-In transforms job searching and hiring into an **interactive, AI-driven experience**. Inspired by swipe-based apps, we built a seamless matching platform where **job seekers** and **recruiters** connect effortlessly. This project was built for **HackNYU 2025** within an intense 1 dau coding sprint. 🚀
+Swiped-In transforms job searching and hiring into an **interactive, AI-driven experience**. Inspired by swipe-based apps, we built a seamless matching platform where **job seekers** and **recruiters** connect effortlessly. This project was built for **HackNYU 2025** within an intense 1 day coding sprint. 🚀
 
 ## Inspiration
 The hiring process is often slow, impersonal, and frustrating. We set out to create a **fast, intuitive, and engaging** way to match candidates with jobs—just like dating apps revolutionized relationships, we’re reimagining hiring.
