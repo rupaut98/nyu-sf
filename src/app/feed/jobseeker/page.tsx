@@ -2,7 +2,7 @@
 'use client';
 import { useState } from 'react';
 import FeedNavbar from '../../components/FeedNavbar';
-import { jobPosts } from '@/app/data/mockData';
+import { jobPosts } from '@/src/app/data/mockData';
 
 export default function JobSeekerFeed() {
   const [currentIndex, setCurrentIndex] = useState(0);

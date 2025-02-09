@@ -1,3 +1,4 @@
+// src/app/recruiter/profile-setup/page.tsx
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';

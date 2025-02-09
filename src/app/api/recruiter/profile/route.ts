@@ -1,36 +1,40 @@
+// src/app/api/recruiter/profile/route.ts
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@lib/prisma';
 
 export async function POST(req: Request) {
   try {
+    if (!req.body) {
+      return NextResponse.json(
+        { error: 'Request body is empty' },
+        { status: 400 }
+      );
+    }
+
     const body = await req.json();
-    const {
-      userId,
-      fullName,
-      company,
-      title,
-      email,
-      phone,
-      bio,
-      linkedIn,
-      hideEmail,
-      hidePhone,
-    } = body;
+    console.log('Received body:', body); // Debug log
+
+    if (!body.userId || !body.fullName || !body.company || !body.title) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
 
     const profile = await prisma.recruiterProfile.create({
       data: {
-        userId,
-        fullName,
-        company,
-        title,
-        email,
-        phone,
-        bio,
-        linkedIn,
+        userId: body.userId,
+        fullName: body.fullName,
+        company: body.company,
+        title: body.title,
+        email: body.email || null,
+        phone: body.phone || null,
+        bio: body.bio || null,
+        linkedIn: body.linkedIn || null,
         privacySettings: {
           create: {
-            hideEmail,
-            hidePhone,
+            hideEmail: body.hideEmail || false,
+            hidePhone: body.hidePhone || false,
           },
         },
       },
@@ -39,12 +43,12 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(profile);
-  } catch (error) {
-    console.error('Profile creation error:', error);
+    return NextResponse.json({ data: profile });
+  } catch (error: any) {
+    console.error('Profile creation error:', error.message);
     return NextResponse.json(
       { error: 'Failed to create profile' },
       { status: 500 }
     );
   }
-} 
+}
