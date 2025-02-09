@@ -21,7 +21,32 @@ interface Job {
   createdAt: string;
 }
 
-// Mock data for matches
+// Mock data for jobs and matches
+const SAMPLE_JOBS = [
+  {
+    id: '1',
+    title: 'Frontend Developer',
+    company: 'TechCorp',
+    location: 'San Francisco, CA',
+    type: 'Full-time',
+    description: 'Exciting opportunity to work on cutting-edge projects.',
+    salary: '$120,000 - $150,000',
+    requirements: ['React', 'TypeScript', 'CSS'],
+    createdAt: '2025-02-01',
+  },
+  {
+    id: '2',
+    title: 'Backend Engineer',
+    company: 'CodeWave',
+    location: 'Austin, TX',
+    type: 'Contract',
+    description: 'Build scalable APIs for our new platform.',
+    salary: '$90,000 - $110,000',
+    requirements: ['Node.js', 'Express', 'MongoDB'],
+    createdAt: '2025-01-25',
+  },
+];
+
 const MOCK_MATCHES = [
   {
     id: 1,
@@ -50,103 +75,71 @@ const MOCK_MATCHES = [
 
 export default function RecruiterDashboard() {
   const [activeTab, setActiveTab] = useState<'jobs' | 'matches' | 'feed'>('jobs');
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadJobs = async () => {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) throw new Error('No user found');
-
-        const response = await fetch(`/api/recruiter/jobs/${user.id}`);
-        const data = await response.json();
-        setJobs(data.jobs);
-      } catch (error) {
-        console.error('Error loading jobs:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadJobs();
-  }, []);
+  const [jobs, setJobs] = useState<Job[]>(SAMPLE_JOBS);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+            <h1 className="text-4xl font-bold text-black">Dashboard</h1>
             {activeTab === 'jobs' && (
               <Link
                 href="/recruiter/job-posting"
-                className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
+                className="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700"
               >
                 Post New Job
               </Link>
             )}
           </div>
 
-          <div className="border-b border-gray-200">
+          <div className="border-b border-gray-300">
             <nav className="flex space-x-8">
-              <button
-                onClick={() => setActiveTab('jobs')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'jobs'
-                    ? 'border-black text-black'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                My Job Postings
-              </button>
-              <button
-                onClick={() => setActiveTab('matches')}
-                className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                  activeTab === 'matches'
-                    ? 'border-black text-black'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
-              >
-                Matches
-              </button>
-              <Link
-                href="/feed/recruiter"
-                className="py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-              >
-                Feed
-              </Link>
+              {['jobs', 'matches', 'feed'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab as 'jobs' | 'matches' | 'feed')}
+                  className={`py-4 px-1 border-b-4 font-medium text-lg transition-colors ${
+                    activeTab === tab
+                      ? 'border-indigo-600 text-black'
+                      : 'border-transparent text-gray-500 hover:text-black hover:border-gray-400'
+                  }`}
+                >
+                  {tab === 'jobs'
+                    ? 'My Job Postings'
+                    : tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
             </nav>
           </div>
         </div>
 
         {activeTab === 'jobs' ? (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {loading ? (
-              <div className="text-center py-12">Loading...</div>
-            ) : jobs.length === 0 ? (
+            {jobs.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-500">No jobs posted yet.</p>
+                <p className="text-black">No jobs posted yet.</p>
               </div>
             ) : (
               jobs.map((job) => (
                 <div
                   key={job.id}
-                  className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow"
                 >
-                  <h2 className="text-xl font-semibold mb-2">{job.title}</h2>
-                  <p className="text-gray-600 mb-2">{job.company}</p>
-                  <div className="flex items-center text-gray-500 text-sm mb-4">
-                    <span>{job.location}</span>
-                    <span className="mx-2">•</span>
-                    <span>{job.type}</span>
-                  </div>
+                  <h2 className="text-2xl font-bold text-black mb-2">{job.title}</h2>
+                  <p className="text-black">{job.company}</p>
+                  <p className="text-black text-sm mb-4">
+                    {job.location} • {job.type}
+                  </p>
+                  <p className="text-black text-sm mb-4">{job.description}</p>
                   {job.salary && (
-                    <p className="text-gray-600 text-sm mb-4">{job.salary}</p>
+                    <p className="text-indigo-600 text-sm font-semibold mb-4">
+                      {job.salary}
+                    </p>
                   )}
-                  <div className="flex justify-between items-center mt-4">
-                    <span className="text-gray-400 text-sm">
-                      Posted {new Date(job.createdAt).toLocaleDateString()}
+                  <div className="flex justify-between items-center">
+                    <span className="text-black text-sm">
+                      Posted on {new Date(job.createdAt).toLocaleDateString()}
                     </span>
                   </div>
                 </div>
@@ -155,83 +148,49 @@ export default function RecruiterDashboard() {
           </div>
         ) : (
           <div className="space-y-8">
-            {/* Initial Matches Section */}
             <div>
-              <h2 className="text-xl font-semibold mb-4">Initial Matches</h2>
+              <h2 className="text-2xl font-bold text-black mb-4">Matches</h2>
               <div className="grid gap-6 md:grid-cols-2">
-                {MOCK_MATCHES.filter(match => !match.aiScreened).map((match) => (
+                {MOCK_MATCHES.map((match) => (
                   <div
                     key={match.id}
-                    className="bg-white rounded-lg shadow-md p-6"
+                    className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow"
                   >
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h3 className="font-semibold">{match.name}</h3>
-                        <p className="text-gray-600 text-sm">{match.title}</p>
-                        <p className="text-gray-500 text-sm">For: {match.jobTitle}</p>
-                      </div>
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
-                        {match.matchPercentage}% Match
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {match.skills.map((skill) => (
-                        <span
-                          key={skill}
-                          className="bg-gray-100 px-2 py-1 rounded text-xs"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                    <button className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800">
-                      Schedule Interview
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* AI Screened Matches Section */}
-            <div>
-              <h2 className="text-xl font-semibold mb-4">AI Screened Matches</h2>
-              <div className="grid gap-6 md:grid-cols-2">
-                {MOCK_MATCHES.filter(match => match.aiScreened).map((match) => (
-                  <div
-                    key={match.id}
-                    className="bg-white rounded-lg shadow-md p-6"
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h3 className="font-semibold">{match.name}</h3>
-                        <p className="text-gray-600 text-sm">{match.title}</p>
-                        <p className="text-gray-500 text-sm">For: {match.jobTitle}</p>
+                        <h3 className="text-lg font-semibold text-black">{match.name}</h3>
+                        <p className="text-black text-sm">{match.title}</p>
+                        <p className="text-black text-sm">For: {match.jobTitle}</p>
                       </div>
                       <div className="text-right">
                         <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded block mb-1">
                           {match.matchPercentage}% Match
                         </span>
-                        <span className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded block">
-                          AI Score: {match.aiScore}%
-                        </span>
+                        {match.aiScreened && (
+                          <span className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">
+                            AI Score: {match.aiScore}%
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-2 mb-4">
                       {match.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="bg-gray-100 px-2 py-1 rounded text-xs"
+                          className="bg-gray-100 px-2 py-1 rounded text-xs text-black"
                         >
                           {skill}
                         </span>
                       ))}
                     </div>
                     <div className="flex gap-2">
-                      <button className="flex-1 bg-gray-100 text-gray-800 py-2 rounded-md hover:bg-gray-200">
-                        View AI Report
-                      </button>
-                      <button className="flex-1 bg-black text-white py-2 rounded-md hover:bg-gray-800">
-                        Contact
+                      {match.aiScreened && (
+                        <button className="flex-1 bg-gray-100 text-black py-2 rounded-lg hover:bg-gray-200">
+                          View AI Report
+                        </button>
+                      )}
+                      <button className="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700">
+                        {match.aiScreened ? 'Contact' : 'Schedule Interview'}
                       </button>
                     </div>
                     {match.hasAiInterview && (
@@ -251,4 +210,4 @@ export default function RecruiterDashboard() {
       </div>
     </div>
   );
-} 
+}
