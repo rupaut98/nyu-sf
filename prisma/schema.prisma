@@ -14,23 +14,20 @@ datasource db {
 }
 
 model RecruiterProfile {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @unique // Supabase user ID
-  fullName  String
-  company   String
-  title     String
-  email     String?
-  phone     String?
-  bio       String?
-  linkedIn  String?
-  
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String   @unique
+  fullName       String
+  email          String
+  company        String
+  position       String
+  phone          String?
+  linkedin       String?
+  companyWebsite String?
+  bio            String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  jobs           Job[]
   privacySettings PrivacySettings?
-
-  jobs      Job[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("recruiter_profiles")
 }
 
 model PrivacySettings {

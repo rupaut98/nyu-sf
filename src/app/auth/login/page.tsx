@@ -35,7 +35,15 @@ export default function AuthPage() {
             router.push('/recruiter/profile-setup');
           }
         } else {
-          router.push('/feed/jobseeker');
+          // Check jobseeker profile
+          const response = await fetch(`/api/jobseeker/profile/check/${session.user.id}`);
+          const { hasProfile } = await response.json();
+          
+          if (hasProfile) {
+            router.push('/jobseeker/dashboard');
+          } else if (window.location.pathname !== '/jobseeker/profile-setup') {
+            router.push('/jobseeker/profile-setup');
+          }
         }
       }
     });
@@ -53,24 +61,6 @@ export default function AuthPage() {
           supabaseClient={supabase}
           appearance={{
             theme: ThemeSupa,
-            variables: {
-              default: {
-                colors: {
-                  brand: '#000000',
-                  brandAccent: '#333333',
-                  inputText: '#333333',
-                  inputBorder: '#CCCCCC',
-                },
-                fontSizes: {
-                  baseBodySize: "16px",
-                  baseInputSize: "14px",
-                },
-                radii: {
-                  inputBorderRadius: "8px",
-                  buttonBorderRadius: "8px",
-                },
-              },
-            },
           }}
           theme="light"
           providers={["github", "google"]}
