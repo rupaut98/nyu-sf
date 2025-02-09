@@ -79,13 +79,13 @@ export default function JobSeekerProfileSetup() {
     setIsLoading(true);
     setLoadingText('Analyzing resume...');
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     setLoadingText('Extracting information...');
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     setLoadingText('Auto-filling fields...');
     await new Promise(resolve => setTimeout(resolve, 1000));
-    
+
     setProfile({
       fullName: RESUME_DATA.fullName,
       email: RESUME_DATA.email,
@@ -100,7 +100,7 @@ export default function JobSeekerProfileSetup() {
       skills: RESUME_DATA.skills,
       bio: ''
     });
-    
+
     setIsLoading(false);
   };
 
@@ -129,7 +129,7 @@ export default function JobSeekerProfileSetup() {
       });
 
       if (!response.ok) throw new Error('Failed to create profile');
-      
+
       router.push('/jobseeker/dashboard');
     } catch (error) {
       console.error('Error saving profile:', error);
@@ -150,7 +150,7 @@ export default function JobSeekerProfileSetup() {
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Complete Your Profile</h1>
-        
+
         <div className="bg-white rounded-lg shadow p-6 mb-6">
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -160,7 +160,7 @@ export default function JobSeekerProfileSetup() {
               type="file"
               accept=".pdf"
               onChange={handleResumeUpload}
-              className="block w-full text-sm text-gray-500
+              className="block w-full text-sm text-black
                 file:mr-4 file:py-2 file:px-4
                 file:rounded-md file:border-0
                 file:text-sm file:font-semibold
@@ -177,8 +177,8 @@ export default function JobSeekerProfileSetup() {
                 <input
                   type="text"
                   value={profile.fullName}
-                  onChange={(e) => setProfile({...profile, fullName: e.target.value})}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                  onChange={(e) => setProfile({ ...profile, fullName: e.target.value })}
+                  className="mt-1 block w-full border-b-2 border-black text-black focus:border-black focus:outline-none"
                   required
                 />
               </div>
@@ -187,8 +187,8 @@ export default function JobSeekerProfileSetup() {
                 <input
                   type="email"
                   value={profile.email}
-                  onChange={(e) => setProfile({...profile, email: e.target.value})}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                  onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                  className="mt-1 block w-full border-b-2 border-black text-black focus:border-black focus:outline-none"
                   required
                 />
               </div>
@@ -201,8 +201,8 @@ export default function JobSeekerProfileSetup() {
                 <input
                   type="url"
                   value={profile.linkedin}
-                  onChange={(e) => setProfile({...profile, linkedin: e.target.value})}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                  onChange={(e) => setProfile({ ...profile, linkedin: e.target.value })}
+                  className="mt-1 block w-full border-b-2 border-black text-black focus:border-black focus:outline-none"
                 />
               </div>
               <div>
@@ -210,8 +210,8 @@ export default function JobSeekerProfileSetup() {
                 <input
                   type="url"
                   value={profile.portfolio}
-                  onChange={(e) => setProfile({...profile, portfolio: e.target.value})}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                  onChange={(e) => setProfile({ ...profile, portfolio: e.target.value })}
+                  className="mt-1 block w-full border-b-2 border-black text-black focus:border-black focus:outline-none"
                 />
               </div>
             </div>
@@ -225,11 +225,13 @@ export default function JobSeekerProfileSetup() {
                   <input
                     type="text"
                     value={profile.education.university}
-                    onChange={(e) => setProfile({
-                      ...profile,
-                      education: {...profile.education, university: e.target.value}
-                    })}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        education: { ...profile.education, university: e.target.value }
+                      })
+                    }
+                    className="mt-1 block w-full border-b-2 border-black text-black focus:border-black focus:outline-none"
                     required
                   />
                 </div>
@@ -238,11 +240,13 @@ export default function JobSeekerProfileSetup() {
                   <input
                     type="text"
                     value={profile.education.major}
-                    onChange={(e) => setProfile({
-                      ...profile,
-                      education: {...profile.education, major: e.target.value}
-                    })}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        education: { ...profile.education, major: e.target.value }
+                      })
+                    }
+                    className="mt-1 block w-full border-b-2 border-black text-black focus:border-black focus:outline-none"
                     required
                   />
                 </div>
@@ -263,9 +267,9 @@ export default function JobSeekerProfileSetup() {
                         onChange={(e) => {
                           const newExp = [...profile.experience];
                           newExp[index].title = e.target.value;
-                          setProfile({...profile, experience: newExp});
+                          setProfile({ ...profile, experience: newExp });
                         }}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                        className="mt-1 block w-full border-b-2 border-black text-black focus:border-black focus:outline-none"
                       />
                     </div>
                     <div>
@@ -276,9 +280,9 @@ export default function JobSeekerProfileSetup() {
                         onChange={(e) => {
                           const newExp = [...profile.experience];
                           newExp[index].company = e.target.value;
-                          setProfile({...profile, experience: newExp});
+                          setProfile({ ...profile, experience: newExp });
                         }}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                        className="mt-1 block w-full border-b-2 border-black text-black focus:border-black focus:outline-none"
                       />
                     </div>
                   </div>
@@ -289,20 +293,22 @@ export default function JobSeekerProfileSetup() {
                       onChange={(e) => {
                         const newExp = [...profile.experience];
                         newExp[index].description = e.target.value;
-                        setProfile({...profile, experience: newExp});
+                        setProfile({ ...profile, experience: newExp });
                       }}
                       rows={4}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black"
+                      className="mt-1 block w-full border-b-2 border-black text-black focus:border-black focus:outline-none"
                     />
                   </div>
                 </div>
               ))}
               <button
                 type="button"
-                onClick={() => setProfile({
-                  ...profile,
-                  experience: [...profile.experience, { title: '', company: '', period: '', description: '' }]
-                })}
+                onClick={() =>
+                  setProfile({
+                    ...profile,
+                    experience: [...profile.experience, { title: '', company: '', period: '', description: '' }]
+                  })
+                }
                 className="text-sm text-black underline"
               >
                 + Add Experience
@@ -316,7 +322,7 @@ export default function JobSeekerProfileSetup() {
                 {profile.skills.map((skill, index) => (
                   <span
                     key={index}
-                    className="bg-gray-100 px-3 py-1 rounded-full text-sm"
+                    className="bg-gray-100 px-3 py-1 rounded-full text-sm text-black"
                   >
                     {skill}
                   </span>
@@ -337,4 +343,4 @@ export default function JobSeekerProfileSetup() {
       </div>
     </div>
   );
-} 
+}
