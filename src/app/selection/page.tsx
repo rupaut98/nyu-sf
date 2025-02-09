@@ -23,11 +23,11 @@ export default function SelectionPage() {
 
       if (error) throw error;
 
-      // Redirect based on type
+      // Redirect to appropriate profile setup
       if (type === 'recruiter') {
         router.push('/recruiter/profile-setup');
       } else {
-        router.push('/feed/jobseeker');
+        router.push('/jobseeker/profile-setup');
       }
     } catch (error) {
       console.error('Error setting user type:', error);
