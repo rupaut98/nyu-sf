@@ -1,3 +1,6 @@
+// mockData.js
+// import { JobPost, UserProfile } from '@/src/app/types';
+
 export const jobPosts: JobPost[] = [
   {
     id: '1',
@@ -16,6 +19,7 @@ export const jobPosts: JobPost[] = [
     companyLogo: '/google.gif', // Ensure this image exists in public/logos/
     postedDate: '2024-03-15',
     employmentType: 'Full-time',
+    isMatch: false, // NEW: This job is a match!
   },
   {
     id: '2',
@@ -34,6 +38,7 @@ export const jobPosts: JobPost[] = [
     companyLogo: '/netflix.gif', // Ensure this image exists in public/logos/
     postedDate: '2024-03-14',
     employmentType: 'Full-time',
+    isMatch: false,
   },
   {
     id: '3',
@@ -51,23 +56,25 @@ export const jobPosts: JobPost[] = [
     companyLogo: '/amazon.gif', // Ensure this image exists in public/logos/
     postedDate: '2024-03-12',
     employmentType: 'Contract',
+    isMatch: false,
   },
   {
     id: '4',
-    title: 'DevOps Engineer',
+    title: 'Machine Learning Engineer',
     company: 'Mongo',
     location: 'Boston, MA',
     salary: '$110,000 - $140,000',
     description:
       'Seeking an experienced DevOps Engineer to streamline our cloud infrastructure and CI/CD pipelines.',
     requirements: [
-      'Experience with Kubernetes and Docker',
-      'Familiarity with AWS or Azure',
+      'Experience with Machine Learning and Artificial Intelligence',
+      'Familiarity python libraries',
       'Strong scripting skills',
     ],
     companyLogo: '/mongo.gif', // Ensure this image exists in public/logos/
     postedDate: '2024-03-10',
     employmentType: 'Full-time',
+    isMatch: true,
   },
   {
     id: '5',
@@ -85,6 +92,7 @@ export const jobPosts: JobPost[] = [
     companyLogo: '/capitalone.gif', // Ensure this image exists in public/logos/
     postedDate: '2024-03-08',
     employmentType: 'Part-time',
+    isMatch: true, // NEW: This job is also a match!
   },
 ];
 
@@ -137,4 +145,21 @@ export interface JobPost {
   postedDate: string;
   employmentType: string;
   department?: string;
+  isMatch?: boolean; // NEW property
+}
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  title: string;
+  location: string;
+  experience: number;
+  skills: string[];
+  education: {
+    degree: string;
+    institution: string;
+    year: string;
+  }[];
+  profilePicture: string;
+  bio: string;
 }

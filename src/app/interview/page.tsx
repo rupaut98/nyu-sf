@@ -152,7 +152,7 @@ export default function InterviewPage() {
         <div className="max-w-7xl mx-auto px-6 py-12 flex-grow pt-20">
           <div className="mb-12">
             <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-              <h2 className="text-3xl font-bold text-gray-800 mb-2">
+              <h2 className="text-3xl font-bold mb-2">
                 {selectedRole.title}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
