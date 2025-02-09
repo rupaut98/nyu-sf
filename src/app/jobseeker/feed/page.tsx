@@ -1,3 +1,4 @@
+// jobseeker/feed/page.tsx
 'use client';
 import { useState } from 'react';
 import Image from 'next/image';
@@ -10,11 +11,23 @@ export default function JobSeekerFeed() {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
+  const [showMatchMessage, setShowMatchMessage] = useState(false);
 
   const currentJob = jobPosts[currentIndex] || jobPosts[0];
 
   const handleSwipe = (direction: 'left' | 'right') => {
     setSwipeDirection(direction);
+
+    // If the user swipes right and the job is a match, show the match message.
+    if (direction === 'right' && currentJob.isMatch) {
+      setShowMatchMessage(true);
+      // Hide the match message after 2 seconds.
+      setTimeout(() => {
+        setShowMatchMessage(false);
+      }, 2000);
+    }
+
+    // Update the current index.
     setCurrentIndex((prev) =>
       direction === 'right'
         ? Math.min(prev + 1, jobPosts.length - 1)
@@ -38,12 +51,27 @@ export default function JobSeekerFeed() {
 
   const cardTransition = {
     type: "tween",
-    duration: 0.3,
+    duration: 0,
     ease: "easeInOut",
+
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200">
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 relative">
+      {/* Match Message */}
+      <AnimatePresence>
+        {showMatchMessage && (
+          <motion.div
+            className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+          >
+            You have a new match!
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="flex flex-col md:flex-row min-h-screen">
         <div className="flex-1 relative p-8 hidden md:block">
           {/* Background Image */}
@@ -96,7 +124,6 @@ export default function JobSeekerFeed() {
                   </div>
 
                   <div className="flex-1 p-6 overflow-y-auto">
-                    {/* ... (rest of card content) */}
                     <h2 className="text-3xl font-bold text-indigo-600 mb-2">
                       {currentJob.title}
                     </h2>
