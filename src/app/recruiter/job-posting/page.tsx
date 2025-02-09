@@ -9,18 +9,42 @@ const supabase = createClient(
 );
 
 export default function JobPostingPage() {
-  const router = useRouter();
-  const [job, setJob] = useState({
-    title: '',
-    company: '',
-    location: '',
+  // Define the initial job data based on the provided resume.
+  const initialJobData = {
+    title: 'Machine Learning Engineer',
+    company: 'InnovateAI Solutions',
+    location: 'Remote', // You can update as needed.
     type: 'Full-time',
-    description: '',
-    salary: '',
-    requirements: [''],
-  });
+    description: `InnovateAI Solutions is a fast-growing startup focused on AI for e-commerce.
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+Core Responsibilities:
+- Develop and deploy machine learning models (especially NLP).
+- Fine-tune LLMs.
+- Work with large datasets.
+- Use cloud platforms (AWS, Azure, GCP).
+- Collaborate with a team.`,
+    salary: '',
+    requirements: [
+      'Python programming',
+      'Experience with ML frameworks (TensorFlow, PyTorch, scikit-learn)',
+      'NLP experience',
+      'Cloud experience (AWS, Azure, GCP)',
+      'Version control (Git)',
+      'RESTful APIs',
+      'LLM fine-tuning experience (bonus)',
+      'Docker/Kubernetes (bonus)',
+      'React/Next.js experience (bonus)',
+      'Open-source contributions (bonus)',
+    ],
+  };
+
+  // Initialize form state with the resume data.
+  const [job, setJob] = useState(initialJobData);
+  const router = useRouter();
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setJob((prev) => ({ ...prev, [name]: value }));
   };
@@ -94,7 +118,7 @@ export default function JobPostingPage() {
                 required
                 placeholder={placeholder}
                 className="mt-1 block w-full rounded-md border border-gray-400 shadow-sm focus:border-indigo-600 focus:ring-indigo-600 px-3 py-2"
-                value={job[name as keyof typeof job]}
+                value={job[name as keyof typeof job] as string}
                 onChange={handleInputChange}
               />
             </div>
