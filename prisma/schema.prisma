@@ -62,3 +62,19 @@ model Job {
 
   @@map("jobs")
 }
+
+model JobSeekerProfile {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @unique
+  fullName    String
+  email       String
+  phone       String?
+  linkedin    String?
+  portfolio   String?
+  bio         String?
+  education   Json
+  experience  Json[]
+  skills      String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

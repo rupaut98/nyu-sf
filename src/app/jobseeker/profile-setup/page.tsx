@@ -10,7 +10,7 @@ const supabase = createClient(
 
 // Hardcoded resume data
 const RESUME_DATA = {
-  fullName: "RUPAK RAUT",
+  fullName: "Rupak Raut",
   email: "rupakraut78@gmail.com",
   linkedin: "https://www.linkedin.com/in/rupak-raut",
   portfolio: "https://rupaut98.github.io",
@@ -130,7 +130,7 @@ export default function JobSeekerProfileSetup() {
 
       if (!response.ok) throw new Error('Failed to create profile');
       
-      router.push('/feed/jobseeker');
+      router.push('/jobseeker/dashboard');
     } catch (error) {
       console.error('Error saving profile:', error);
       alert('Failed to save profile. Please try again.');

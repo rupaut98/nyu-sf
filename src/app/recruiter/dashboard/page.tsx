@@ -46,7 +46,7 @@ const MOCK_MATCHES = [
 ];
 
 export default function RecruiterDashboard() {
-  const [activeTab, setActiveTab] = useState<'jobs' | 'matches'>('jobs');
+  const [activeTab, setActiveTab] = useState<'jobs' | 'matches' | 'feed'>('jobs');
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -107,6 +107,12 @@ export default function RecruiterDashboard() {
               >
                 Matches
               </button>
+              <Link
+                href="/feed/recruiter"
+                className="py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+              >
+                Feed
+              </Link>
             </nav>
           </div>
         </div>
