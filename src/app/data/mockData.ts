@@ -60,15 +60,15 @@ export const jobPosts: JobPost[] = [
   },
   {
     id: '4',
-    title: 'DevOps Engineer',
+    title: 'Machine Learning Engineer',
     company: 'Mongo',
     location: 'Boston, MA',
     salary: '$110,000 - $140,000',
     description:
       'Seeking an experienced DevOps Engineer to streamline our cloud infrastructure and CI/CD pipelines.',
     requirements: [
-      'Experience with Kubernetes and Docker',
-      'Familiarity with AWS or Azure',
+      'Experience with Machine Learning and Artificial Intelligence',
+      'Familiarity python libraries',
       'Strong scripting skills',
     ],
     companyLogo: '/mongo.gif', // Ensure this image exists in public/logos/
